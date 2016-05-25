@@ -1,4 +1,5 @@
 ﻿name: LibItems
 main: com.fyxridd.lib.items.ItemsPlugin
 version: 0.1.0
-depend: [LibCore]
+depend: [LibCore, LibFunc]
+softdepend: [LibTipTransaction]

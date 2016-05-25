@@ -1,36 +1,47 @@
 package com.fyxridd.lib.items;
 
 import com.fyxridd.lib.core.api.SqlApi;
+import com.fyxridd.lib.core.api.config.ConfigApi;
 import com.fyxridd.lib.core.api.plugin.SimplePlugin;
-import com.fyxridd.lib.info.manager.DaoManager;
-import com.fyxridd.lib.info.manager.InfoManager;
+import com.fyxridd.lib.items.config.EditConfig;
+import com.fyxridd.lib.items.config.LangConfig;
+import com.fyxridd.lib.items.manager.DynamicItemGetterManager;
+import com.fyxridd.lib.items.manager.EditItemManager;
+import com.fyxridd.lib.items.manager.ItemsManager;
 
 import java.io.File;
 
 public class ItemsPlugin extends SimplePlugin{
-    public static InfoPlugin instance;
+    public static ItemsPlugin instance;
 
-    private InfoManager infoManager;
-    private DaoManager daoManager;
-
+    private ItemsManager itemsManager;
+    private DynamicItemGetterManager dynamicItemGetterManager;
+    private EditItemManager editItemManager;
+    
     @Override
     public void onEnable() {
         instance = this;
 
-        //注册Mapper文件
-        SqlApi.registerMapperXml(new File(dataPath, "InfoUserMapper.xml"));
-
-        infoManager = new InfoManager();
-        daoManager = new DaoManager();
-
+        //注册配置
+        ConfigApi.register(pn, LangConfig.class);
+        ConfigApi.register(pn, EditConfig.class);
+        
+        itemsManager = new ItemsManager();
+        dynamicItemGetterManager = new DynamicItemGetterManager();
+        editItemManager = new EditItemManager();
+        
         super.onEnable();
     }
 
-    public InfoManager getInfoManager() {
-        return infoManager;
+    public ItemsManager getItemsManager() {
+        return itemsManager;
     }
 
-    public DaoManager getDaoManager() {
-        return daoManager;
+    public DynamicItemGetterManager getDynamicItemGetterManager() {
+        return dynamicItemGetterManager;
+    }
+
+    public EditItemManager getEditItemManager() {
+        return editItemManager;
     }
 }
