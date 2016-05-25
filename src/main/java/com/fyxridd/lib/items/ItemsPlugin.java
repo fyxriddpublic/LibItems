@@ -8,11 +8,13 @@ import com.fyxridd.lib.items.config.LangConfig;
 import com.fyxridd.lib.items.manager.DynamicItemGetterManager;
 import com.fyxridd.lib.items.manager.EditItemManager;
 import com.fyxridd.lib.items.manager.ItemsManager;
+import com.fyxridd.lib.items.manager.TipTransactionManager;
 
 import java.io.File;
 
 public class ItemsPlugin extends SimplePlugin{
     public static ItemsPlugin instance;
+    public static boolean libTipTransactionHook;
 
     private ItemsManager itemsManager;
     private DynamicItemGetterManager dynamicItemGetterManager;
@@ -21,7 +23,12 @@ public class ItemsPlugin extends SimplePlugin{
     @Override
     public void onEnable() {
         instance = this;
-
+        try {
+            Class.forName("com.fyxridd.lib.tiptransaction.TipTransactionPlugin");
+            libTipTransactionHook = true;
+        } catch (Exception e) {
+        }
+        
         //注册配置
         ConfigApi.register(pn, LangConfig.class);
         ConfigApi.register(pn, EditConfig.class);
@@ -29,6 +36,7 @@ public class ItemsPlugin extends SimplePlugin{
         itemsManager = new ItemsManager();
         dynamicItemGetterManager = new DynamicItemGetterManager();
         editItemManager = new EditItemManager();
+        if (libTipTransactionHook) new TipTransactionManager();
         
         super.onEnable();
     }
