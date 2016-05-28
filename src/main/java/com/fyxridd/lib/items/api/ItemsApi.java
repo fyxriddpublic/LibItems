@@ -1,7 +1,7 @@
 package com.fyxridd.lib.items.api;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.MemorySection;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +39,7 @@ public class ItemsApi{
         try {
             YamlConfiguration config = new YamlConfiguration();
             config.loadFromString(data);
-            return loadItemStack((MemorySection) config.get("item"));
+            return loadItemStack((ConfigurationSection) config.get("item"));
         } catch (Exception e) {
             return null;
         }
@@ -47,26 +47,26 @@ public class ItemsApi{
 
     /**
      * 保存物品信息(包括保存Attributes)
-     * @param ms 物品信息将被保存在这里,可为null(null时无效果)
+     * @param cs 物品信息将被保存在这里,可为null(null时无效果)
      * @param type 物品类型名,可为null(null时无效果)
      * @param is 物品,可为null(null时无效果)
      */
-    public static void saveItemStack(MemorySection ms, String type, ItemStack is) {
-        if (ms == null || type == null || is == null) return;
+    public static void saveItemStack(ConfigurationSection cs, String type, ItemStack is) {
+        if (cs == null || type == null || is == null) return;
 
-        if (!is.getType().equals(Material.AIR) && is.getAmount() > 0) ms.createSection(type, is.serialize());
+        if (!is.getType().equals(Material.AIR) && is.getAmount() > 0) cs.createSection(type, is.serialize());
     }
 
     /**
      * 获取物品(包括读取Attributes)
-     * @param ms 可为null(null时返回null)
+     * @param cs 可为null(null时返回null)
      * @return 物品信息,异常返回null
      */
-    public static ItemStack loadItemStack(MemorySection ms) {
-        if (ms == null) return null;
+    public static ItemStack loadItemStack(ConfigurationSection cs) {
+        if (cs == null) return null;
 
         try {
-            return ItemStack.deserialize(ms.getValues(true));
+            return ItemStack.deserialize(cs.getValues(true));
         } catch (Exception e) {
             return null;
         }
@@ -77,7 +77,7 @@ public class ItemsApi{
      * 注册物品获取器
      * @param plugin 插件(null时无效果)
      * @param type (物品获取器)类型(null时无效果)
-     * @param getItemsHandler 物品获取器
+     * @param dynamicItemGetter 物品获取器
      */
     public static void register(String plugin, String type, DynamicItemGetter dynamicItemGetter) {
         ItemsPlugin.instance.getDynamicItemGetterManager().register(plugin, type, dynamicItemGetter);
@@ -110,10 +110,10 @@ public class ItemsApi{
      *   - 物品类型: 保存在plugins/<b>plugin</b>/items文件夹下,文件名xxx.yml的都是<br>
      *   - 获取类型: 保存在传进来的<b>ms</b>中
      * @param plugin 插件名,可为null(null时无效果)
-     * @param ms 配置,可为null(null时无效果)
+     * @param cs 配置,可为null(null时无效果)
      */
-    public static void reloadItems(String plugin, MemorySection ms) {
-        ItemsPlugin.instance.getItemsManager().reloadItems(plugin, ms);
+    public static void reloadItems(String plugin, ConfigurationSection cs) {
+        ItemsPlugin.instance.getItemsManager().reloadItems(plugin, cs);
     }
 
     /**

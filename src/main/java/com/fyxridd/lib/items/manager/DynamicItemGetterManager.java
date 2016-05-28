@@ -17,7 +17,7 @@ public class DynamicItemGetterManager {
     private Map<String, Map<String, DynamicItemGetter>> getters = new HashMap<>();
 
     /**
-     * @see com.fyxridd.lib.items.api.ItemsApi#register(String, String, com.fyxridd.lib.items.api.DynamicItemGetter.GetItemsHandler)
+     * @see com.fyxridd.lib.items.api.ItemsApi#register(String, String, DynamicItemGetter)
      */
     public void register(String plugin, String type, DynamicItemGetter dynamicItemGetter) {
         if (plugin == null || type == null) return;

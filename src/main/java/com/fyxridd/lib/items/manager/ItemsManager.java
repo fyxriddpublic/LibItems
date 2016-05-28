@@ -13,6 +13,7 @@ import com.fyxridd.lib.items.model.ItemInfo;
 import com.fyxridd.lib.items.model.ItemInfo.InheritItem;
 import com.fyxridd.lib.items.model.ItemWrapper;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -34,15 +35,15 @@ public class ItemsManager{
 	private static HashList<String> loading = new HashListImpl<>();
 
     /**
-     * @see com.fyxridd.lib.items.api.ItemsApi#reloadItems(String, org.bukkit.configuration.MemorySection)
+     * @see com.fyxridd.lib.items.api.ItemsApi#reloadItems(String, ConfigurationSection)
      */
-    public void reloadItems(String plugin, MemorySection ms) {
-        if (plugin == null || ms == null) return;
+    public void reloadItems(String plugin, ConfigurationSection cs) {
+        if (plugin == null || cs == null) return;
 
         //重新读取物品类型
         loadItemInfo(plugin);
         //重新读取获取类型
-        loadGetInfo(plugin, ms);
+        loadGetInfo(plugin, cs);
     }
 
     /**
@@ -247,14 +248,14 @@ public class ItemsManager{
 	/**
 	 * 重新读取此插件所有的获取类型
 	 */
-	private void loadGetInfo(String plugin, MemorySection ms) {
+	private void loadGetInfo(String plugin, ConfigurationSection cs) {
 		//清空旧的
 		gets.remove(plugin);
 		//读取新的
 		Map<String, GetInfo> hash = new HashMap<>();
-		if (ms != null) {
-			for (String key:ms.getValues(false).keySet()) {
-				List<String> list = ms.getStringList(key);
+		if (cs != null) {
+			for (String key:cs.getValues(false).keySet()) {
+				List<String> list = cs.getStringList(key);
 				if (!list.isEmpty()) {
 					List<GetItem> itemList = new ArrayList<>();
 					for (String s:list) {
