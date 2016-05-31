@@ -4,7 +4,7 @@ import com.fyxridd.lib.core.api.*;
 import com.fyxridd.lib.core.api.config.ConfigApi;
 import com.fyxridd.lib.core.api.config.Setter;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.realname.NotReadyException;
+import com.fyxridd.lib.core.api.exception.NotReadyException;
 import com.fyxridd.lib.func.api.FuncApi;
 import com.fyxridd.lib.items.ItemsPlugin;
 import com.fyxridd.lib.items.api.ItemsApi;

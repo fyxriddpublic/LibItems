@@ -25,6 +25,11 @@ public class TipTransactionManager {
             }, ItemsPlugin.instance);
         }
         //重新读取提示
-        TransactionApi.reloadTips(ItemsPlugin.instance.pn);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(ItemsPlugin.instance, new Runnable() {
+            @Override
+            public void run() {
+                TransactionApi.reloadTips(ItemsPlugin.instance.pn);
+            }
+        });
     }
 }
