@@ -19,8 +19,10 @@ public class TipTransactionManager {
             Bukkit.getPluginManager().registerEvent(ReloadConfigEvent.class, ItemsPlugin.instance, EventPriority.HIGHEST, new EventExecutor() {
                 @Override
                 public void execute(Listener listener, Event e) throws EventException {
-                    ReloadConfigEvent event = (ReloadConfigEvent) e;
-                    if (event.getPlugin().equals(ItemsPlugin.instance.pn)) TransactionApi.reloadTips(ItemsPlugin.instance.pn);
+                    if (e instanceof ReloadConfigEvent) {
+                        ReloadConfigEvent event = (ReloadConfigEvent) e;
+                        if (event.getPlugin().equals(ItemsPlugin.instance.pn)) TransactionApi.reloadTips(ItemsPlugin.instance.pn);
+                    }
                 }
             }, ItemsPlugin.instance);
         }

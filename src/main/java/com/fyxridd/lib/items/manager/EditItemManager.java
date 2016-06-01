@@ -4,7 +4,6 @@ import com.fyxridd.lib.core.api.*;
 import com.fyxridd.lib.core.api.config.ConfigApi;
 import com.fyxridd.lib.core.api.config.Setter;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
-import com.fyxridd.lib.core.api.exception.NotReadyException;
 import com.fyxridd.lib.func.api.FuncApi;
 import com.fyxridd.lib.items.ItemsPlugin;
 import com.fyxridd.lib.items.api.ItemsApi;
@@ -67,11 +66,7 @@ public class EditItemManager {
 	public Inventory getInv(String name, boolean create) {
         if (name == null) return null;
         //目标玩家存在性检测
-        try {
-            name = PlayerApi.getRealName(null, name);
-        } catch (NotReadyException e) {
-            return null;
-        }
+        name = PlayerApi.getRealName(null, name);
         if (name == null) return null;
         //
         if (!invHash.containsKey(name) && create) invHash.put(name, Bukkit.createInventory(null, SLOT, get(name, 40, name).getText()));
